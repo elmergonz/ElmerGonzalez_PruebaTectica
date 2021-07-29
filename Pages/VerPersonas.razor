@@ -2,6 +2,7 @@
 
 @using ElmerGonzalez_PruebaTectica.Data
 @inject PersonaService personaService
+@inject NavigationManager UriHelper
 
 <h1>Ver Personas</h1>
 
@@ -30,8 +31,8 @@ else
                     <td>@persona.Nombre</td>
                     <td>@persona.FechaNacimiento.ToShortDateString()</td>
                     <td>
-                        <a class="btn btn-primary">Editar</a> 
-                        <button class="btn btn-danger">Eliminar</button>
+                        <a class="btn btn-primary" href="/editarPersona/@persona.Id">Editar</a> 
+                        <button class="btn btn-danger" @onclick="() => EliminarPersona(persona.Id)">Eliminar</button>
                     </td>
                 </tr>
             }
@@ -45,5 +46,15 @@ else
     protected override async Task OnInitializedAsync()
     {
         personas = await personaService.GetPersonasAsync();
+    }
+
+    private void EliminarPersona(int Id)
+    {
+        bool eliminada = personaService.DeletePersona(Id);
+
+        if (eliminada)
+        {
+            UriHelper.NavigateTo("/verPersonas");
+        }
     }
 }
