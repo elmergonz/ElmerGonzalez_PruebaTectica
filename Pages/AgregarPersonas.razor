@@ -2,10 +2,11 @@
 
 @using ElmerGonzalez_PruebaTectica.Data
 @inject PersonaService personaService
+@inject NavigationManager UriHelper
 
 <h1>Agregar personas</h1>
 
-<form action="post">
+<form>
     <div class="form-group">
         <label for="inputNombre">Nombre</label>
         <input type="text" class="form-control" placeholder="Nombre" id="inputNombre" @bind-value="Nombre">
@@ -14,16 +15,20 @@
         <label for="inputDate">Fecha de Nacimiento</label>
         <input type="date" id="inputDate" class="form-control" @bind-value="FechaNacimiento">
     </div>
-    <button type="submit" class="btn btn-primary" @onclick="AgregarPersona">Agregar</button>
+    <button type="button" class="btn btn-primary" @onclick="AgregarPersona">Agregar</button>
 </form>
 
 @code {
     public string Nombre { get; set; }
     public DateTime FechaNacimiento { get; set; }
 
-    private void AgregarPersona() =>
+    private void AgregarPersona()
+    {
         personaService.PostPersona(new Persona {
             Nombre = this.Nombre,
             FechaNacimiento = this.FechaNacimiento
         });
+
+        UriHelper.NavigateTo("verPersonas");
+    }
 }

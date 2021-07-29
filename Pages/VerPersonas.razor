@@ -32,7 +32,7 @@ else
                     <td>@persona.FechaNacimiento.ToShortDateString()</td>
                     <td>
                         <a class="btn btn-primary" href="/editarPersona/@persona.Id">Editar</a> 
-                        <button class="btn btn-danger" @onclick="() => EliminarPersona(persona.Id)">Eliminar</button>
+                        <button type="button" class="btn btn-danger" @onclick="() => EliminarPersona(persona.Id)">Eliminar</button>
                     </td>
                 </tr>
             }
@@ -52,9 +52,6 @@ else
     {
         bool eliminada = personaService.DeletePersona(Id);
 
-        if (eliminada)
-        {
-            UriHelper.NavigateTo("/verPersonas");
-        }
+        UriHelper.NavigateTo(UriHelper.Uri, forceLoad: true);
     }
 }
