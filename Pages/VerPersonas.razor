@@ -1,0 +1,49 @@
+@page "/verPersonas"
+
+@using ElmerGonzalez_PruebaTectica.Data
+@inject PersonaService personaService
+
+<h1>Ver Personas</h1>
+
+<p>Esta es una tabla de las personas que estan en la base de datos</p>
+
+@if (personas == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var persona in personas)
+            {
+                <tr>
+                    <td>@persona.Id</td>
+                    <td>@persona.Nombre</td>
+                    <td>@persona.FechaNacimiento.ToShortDateString()</td>
+                    <td>
+                        <a class="btn btn-primary">Editar</a> 
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Persona[] personas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        personas = await personaService.GetPersonasAsync();
+    }
+}
